@@ -1,15 +1,51 @@
+<h1> Create A New User </h1>
+
+# <form action="/users" accept-charset="UTF-8" method="post" >
+#   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+#   <label for="username">Username</label>
+#   <input type="text" name="user[username]"><br>
+
+#   <label for="email">Email</label>
+#   <input type="text" name="user[email]"><br>
+
+#   <label for="password">Password</label>
+#   <input type="password" name="user[password]"><br>
+
+#   <input type="submit" value="Submit This Form">
+# </form>
 
 
+# <%= form_tag("/users", method: "post") do %>
+#   <%= label_tag(:username, "username:") %>
+#   <%= text_field_tag(:username) %><br>
 
+#   <%= label_tag(:email, "email:") %>
+#   <%= text_field_tag(:email) %><br>
 
+#   <%= label_tag(:password, "password:") %>
+#   <%= text_field_tag(:password) %><br>
 
-<form action="/users" accept-charset="UTF-8" method="post" >
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label for="username">Username</label>
-  <input type="text" name="user[username]">
-  <label for="email">Email</label>
-  <input type="text" name="user[email]">
-  <label for="password">Password</label>
-  <input type="password" name="user[password]">
-  <input type="submit" value="Submit This Form">
-</form>
+#   <%= submit_tag("Submit") %>
+# <% end %>
+
+<% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%= form_for (@user), :url => users_path do |f| %>
+
+  USERNAME: <%= f.text_field :username %><br/>
+  Email: <%= f.email_field :email %><br/>
+  Password: <%= f.password_field :password %><br/>
+
+  SUBMIT: <%= f.submit "Create"%>
+<% end %>
